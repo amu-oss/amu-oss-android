@@ -4,7 +4,6 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.content.Context.NOTIFICATION_SERVICE
 import android.graphics.Color
 import android.os.Build
 import android.support.annotation.RequiresApi
@@ -16,7 +15,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class NotificationService @Inject constructor() : AnkoLogger {
+class NotificationService @Inject constructor(val context: Context, val notificationManager: NotificationManager) : AnkoLogger {
 
     private val NOTIFICATION_ID: Int = 3245
     private val NOTIFICATION_CHANNEL_ID: String = "ALL_OSS"
@@ -25,9 +24,9 @@ class NotificationService @Inject constructor() : AnkoLogger {
 
     private var initialized: Boolean = false
 
-    fun createNotification(context: Context, notification: RemoteMessage.Notification) {
+    fun createNotification(notification: RemoteMessage.Notification) {
         if (!initialized && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            createChannel(context)
+            createChannel()
             initialized = true
         }
 
@@ -41,22 +40,19 @@ class NotificationService @Inject constructor() : AnkoLogger {
             builder.color = Color.parseColor(it)
         }
 
-        sendNotification(context, builder)
+        sendNotification(builder)
     }
 
-    fun sendNotification(context: Context, builder: NotificationCompat.Builder, id: Int = NOTIFICATION_ID) {
-        val notifyManager = context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        notifyManager.notify(id, builder.build())
+    fun sendNotification(builder: NotificationCompat.Builder, id: Int = NOTIFICATION_ID) {
+        notificationManager.notify(id, builder.build())
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun createChannel(
-            context: Context,
             id: String = NOTIFICATION_CHANNEL_ID,
             name: String = NOTIFICATION_CHANNEL_NAME,
             description: String = NOTIFICATION_CHANNEL_DESCRIPTION
     ) {
-        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val importance = NotificationManager.IMPORTANCE_DEFAULT
         val channel = NotificationChannel(id, name, importance)
         channel.description = description
