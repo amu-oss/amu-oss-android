@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.os.Build
 import android.support.annotation.RequiresApi
 import android.support.v4.app.NotificationCompat
+import android.support.v4.content.ContextCompat
 import com.google.firebase.messaging.RemoteMessage
 import io.amu.oss.R
 import org.jetbrains.anko.AnkoLogger
@@ -31,7 +32,9 @@ class NotificationService @Inject constructor(val context: Context, val notifica
         }
 
         val builder = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setStyle(NotificationCompat.BigTextStyle())
+                .setSmallIcon(R.drawable.ic_notification)
+                .setColor(ContextCompat.getColor(context, R.color.colorAccent))
                 .setContentTitle(notification.title)
                 .setContentText(notification.body)
                 .setDefaults(Notification.DEFAULT_SOUND)
