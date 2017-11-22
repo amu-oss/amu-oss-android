@@ -2,7 +2,7 @@ package io.amu.oss.service
 
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import io.amu.oss.di.Components
+import io.amu.oss.OpenApplication
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import javax.inject.Inject
@@ -11,8 +11,9 @@ class MessagingService : FirebaseMessagingService(), AnkoLogger {
 
     @Inject lateinit var notificationService: NotificationService
 
-    init {
-        Components.appComponent.inject(this)
+    override fun onCreate() {
+        super.onCreate()
+        (application as OpenApplication).component.inject(this)
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
@@ -20,7 +21,7 @@ class MessagingService : FirebaseMessagingService(), AnkoLogger {
 
         remoteMessage.notification?.let {
             info("Notification Received : " + remoteMessage.from)
-            notificationService.createNotification(this, it)
+            notificationService.createNotification(it)
         }
     }
 
