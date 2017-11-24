@@ -1,16 +1,16 @@
-package io.amu.oss.ui
+package io.amu.oss.ui.activity
 
 import android.os.Bundle
 import android.support.graphics.drawable.VectorDrawableCompat
-import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import io.amu.oss.OpenApplication
 import io.amu.oss.R
-import io.amu.oss.ui.presenter.MainPresenter
-import io.amu.oss.ui.view.MainView
-
+import io.amu.oss.arch.presenter.MainPresenter
+import io.amu.oss.arch.view.MainView
+import io.amu.oss.ui.adapter.NotificationBindingHelper
+import io.amu.oss.utils.RecyclerUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import org.jetbrains.anko.AnkoLogger
@@ -30,13 +30,15 @@ class MainActivity : AppCompatActivity(), MainView, AnkoLogger {
 
         mainPresenter.setView(this)
 
+        setupRecyclerView()
         fab.setOnClickListener {
             mainPresenter.controller.clickSubscribe()
         }
     }
 
-    override fun showToast(message: String) {
-        toast(message)
+    fun setupRecyclerView() {
+        RecyclerUtils.setupReverseLayout(recyclerView)
+        recyclerView.adapter = NotificationBindingHelper.getNotificationAdapter(this)
     }
 
     override fun subscribed(subscribed: Boolean) {
@@ -45,13 +47,11 @@ class MainActivity : AppCompatActivity(), MainView, AnkoLogger {
 
     private fun subscribed() {
         fab.setImageDrawable(VectorDrawableCompat.create(resources, R.drawable.ic_close, theme))
-        subscribeStatus.text = getString(R.string.unsubscribe)
         toast(getString(R.string.subscribed))
     }
 
     private fun unsubscribed() {
         fab.setImageDrawable(VectorDrawableCompat.create(resources, R.drawable.ic_check, theme))
-        subscribeStatus.text = getString(R.string.subscribe)
         toast(getString(R.string.unsubscribed))
     }
 
