@@ -8,11 +8,13 @@ import io.amu.oss.utils.ColorUtils
 
 @BindingAdapter("android:background")
 fun setBackground(view: View, color: String) {
-    view.setBackgroundColor(Color.parseColor(color))
+    val normalizedColor = ColorUtils.getNormalizedColor(color)
+    view.setBackgroundColor(Color.parseColor(normalizedColor))
 }
 
 @BindingAdapter("notification_title")
 fun setNotificationTitle(view: TextView, color: String) {
-    setBackground(view, color)
-    view.setTextColor(Color.parseColor(ColorUtils.getTitleColor(color)))
+    val normalizedColor = ColorUtils.getNormalizedColor(color)
+    setBackground(view, normalizedColor)
+    view.setTextColor(Color.parseColor(ColorUtils.getTitleColor(normalizedColor)))
 }

@@ -11,6 +11,7 @@ import android.support.v4.app.NotificationCompat
 import android.support.v4.content.ContextCompat
 import com.google.firebase.messaging.RemoteMessage
 import io.amu.oss.R
+import io.amu.oss.utils.ColorUtils
 import org.jetbrains.anko.AnkoLogger
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -38,7 +39,7 @@ class NotificationService @Inject constructor(val context: Context, val notifica
                 .setDefaults(Notification.DEFAULT_SOUND)
 
         notification.color?.let {
-            builder.color = Color.parseColor(it)
+            builder.color = Color.parseColor(ColorUtils.getNormalizedColor(it))
         }
 
         sendNotification(builder.build())

@@ -1,5 +1,6 @@
 package io.amu.oss.arch.presenter
 
+import io.amu.oss.R
 import io.amu.oss.arch.controller.MainController
 import io.amu.oss.arch.view.MainView
 import io.amu.oss.service.TopicService
@@ -13,17 +14,21 @@ class MainPresenter @Inject constructor(val topicService: TopicService) {
     private var subscribed: Boolean = false
 
     init {
-        setSubscribed(topicService.isSubscribed(TOPIC))
+        setSubscribed(topicService.isSubscribed(TOPIC), false)
+        if (topicService.isFirstTime())
+            subscribeToTopic()
     }
 
     fun setView(mainView: MainView) {
         this.mainView = mainView
-        setSubscribed(subscribed)
+        setSubscribed(subscribed, false)
     }
 
-    private fun setSubscribed(subscribed: Boolean) {
+    private fun setSubscribed(subscribed: Boolean, showToast: Boolean = true) {
         this.subscribed = subscribed
         mainView?.subscribed(subscribed)
+        if (showToast)
+            mainView?.showToast(if (subscribed) R.string.subscribed else R.string.unsubscribed)
     }
 
     private fun subscribeToTopic() {
@@ -40,6 +45,10 @@ class MainPresenter @Inject constructor(val topicService: TopicService) {
 
         override fun clickSubscribe() {
             if (subscribed) unSubscribeFromTopic() else subscribeToTopic()
+        }
+
+        override fun longClickSubscribe() {
+            mainView?.showToast(if (subscribed) R.string.unsubscribe else R.string.subscribe)
         }
 
     }

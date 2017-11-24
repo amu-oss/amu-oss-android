@@ -8,6 +8,15 @@ class TopicService @Inject constructor(val sharedPreferences: SharedPreferences)
 
     private val preferenceEditor: SharedPreferences.Editor = sharedPreferences.edit()
 
+    fun isFirstTime(): Boolean {
+        val key = "first_time_topic"
+        val firstTime = sharedPreferences.getBoolean(key, true)
+        if (firstTime)
+            preferenceEditor.putBoolean(key, false).apply()
+
+        return firstTime
+    }
+
     fun isSubscribed(topic: String): Boolean {
         return sharedPreferences.getBoolean(getKey(topic), false)
     }

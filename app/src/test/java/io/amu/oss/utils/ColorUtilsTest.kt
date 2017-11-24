@@ -22,12 +22,12 @@ class ColorUtilsTest {
 
     @Test
     fun testTitleColorLight() {
-        assertEquals("#333333", ColorUtils.getTitleColor("#26C6DA"))
+        assertEquals("#aa333333", ColorUtils.getTitleColor("#26C6DA"))
     }
 
     @Test
     fun testTitleColorDark() {
-        assertEquals("#ffffff", ColorUtils.getTitleColor("#303F9F"))
+        assertEquals("#aaffffff", ColorUtils.getTitleColor("#303F9F"))
     }
 
 }
