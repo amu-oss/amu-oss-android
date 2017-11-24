@@ -1,4 +1,4 @@
-package io.amu.oss.ui.controller
+package io.amu.oss.arch.controller
 
 interface MainController {
 

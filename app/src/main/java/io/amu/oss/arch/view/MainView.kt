@@ -1,9 +1,7 @@
-package io.amu.oss.ui.view
+package io.amu.oss.arch.view
 
 interface MainView {
 
     fun subscribed(subscribed: Boolean)
-
-    fun showToast(message: String)
 
 }

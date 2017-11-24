@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="io.amu.oss.utils.ColorUtils" />
+        <variable name="notification" type="io.amu.oss.data.model.Notification" />
+    </data>
+
+    <android.support.v7.widget.CardView
+        android:layout_marginRight="@dimen/spacing_medium"
+        android:layout_marginLeft="@dimen/spacing_medium"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginBottom="@dimen/spacing_small"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_normal"
+                android:text="@{notification.title}"
+                app:notification_title="@{notification.color}"
+                style="@style/TextAppearance.AppCompat.Title"
+                tools:background="#aaa"
+                tools:text="Title" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_normal">
+
+                <TextView
+                    android:id="@+id/body"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{notification.body}"
+                    style="@style/TextAppearance.AppCompat.Small"
+                    tools:text="Body" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    android:textStyle="italic"
+                    app:date="@{notification.timestamp}"
+                    style="@style/TextAppearance.AppCompat.Caption"
+                    tools:text="Date" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+</layout>
