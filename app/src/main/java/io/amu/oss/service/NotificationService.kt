@@ -18,12 +18,10 @@ import javax.inject.Singleton
 @Singleton
 class NotificationService @Inject constructor(val context: Context, val notificationManager: NotificationManager) : AnkoLogger {
 
-    private val NOTIFICATION_ID: Int = 3245
-    private val NOTIFICATION_CHANNEL_ID: String = "ALL_OSS"
-    private val NOTIFICATION_CHANNEL_NAME: String = "All Notifications"
-    private val NOTIFICATION_CHANNEL_DESCRIPTION = "All notifications from AMU OSS"
+    private val NOTIFICATION_ID = 3245
+    private val NOTIFICATION_CHANNEL_ID = "ALL_OSS"
 
-    private var initialized: Boolean = false
+    private var initialized = false
 
     fun createNotification(notification: RemoteMessage.Notification) {
         if (!initialized && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -43,24 +41,24 @@ class NotificationService @Inject constructor(val context: Context, val notifica
             builder.color = Color.parseColor(it)
         }
 
-        sendNotification(builder)
+        sendNotification(builder.build())
     }
 
-    fun sendNotification(builder: NotificationCompat.Builder, id: Int = NOTIFICATION_ID) {
-        notificationManager.notify(id, builder.build())
+    fun sendNotification(notification: Notification, id: Int = NOTIFICATION_ID) {
+        notificationManager.notify(id, notification)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun createChannel(
             id: String = NOTIFICATION_CHANNEL_ID,
-            name: String = NOTIFICATION_CHANNEL_NAME,
-            description: String = NOTIFICATION_CHANNEL_DESCRIPTION
+            name: String = context.getString(R.string.all_channel_name),
+            description: String =context.getString(R.string.all_channel_description)
     ) {
         val importance = NotificationManager.IMPORTANCE_DEFAULT
         val channel = NotificationChannel(id, name, importance)
         channel.description = description
         channel.enableLights(true)
-        channel.lightColor = Color.RED
+        channel.lightColor = Color.WHITE
         channel.enableVibration(true)
         notificationManager.createNotificationChannel(channel)
     }
