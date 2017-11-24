@@ -5,6 +5,8 @@ import android.support.graphics.drawable.VectorDrawableCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import com.firebase.ui.common.ChangeEventType
 import io.amu.oss.OpenApplication
 import io.amu.oss.R
 import io.amu.oss.arch.presenter.MainPresenter
@@ -34,25 +36,50 @@ class MainActivity : AppCompatActivity(), MainView, AnkoLogger {
         fab.setOnClickListener {
             mainPresenter.controller.clickSubscribe()
         }
+        fab.setOnLongClickListener {
+            mainPresenter.controller.longClickSubscribe()
+            true
+        }
     }
 
     fun setupRecyclerView() {
         RecyclerUtils.setupReverseLayout(recyclerView)
-        recyclerView.adapter = NotificationBindingHelper.getNotificationAdapter(this)
+        recyclerView.adapter = NotificationBindingHelper.getNotificationAdapter(this, this::handleDataChange)
+        RecyclerUtils.attachFabHideBehavior(fab, recyclerView)
+    }
+
+    private fun handleDataChange(newPosition: Int, oldPosition: Int, type: ChangeEventType?) {
+        type?.let {
+            when (it) {
+                ChangeEventType.ADDED -> {
+                    hideProgressBar()
+                    recyclerView.smoothScrollToPosition(newPosition)
+                }
+                else -> { /* Do Nothing */
+                }
+            }
+        }
+    }
+
+    private fun hideProgressBar() {
+        if (progressBar.visibility == View.VISIBLE)
+            progressBar.visibility = View.GONE
     }
 
     override fun subscribed(subscribed: Boolean) {
         if (subscribed) subscribed() else unsubscribed()
     }
 
+    override fun showToast(stringId: Int) {
+        toast(stringId)
+    }
+
     private fun subscribed() {
         fab.setImageDrawable(VectorDrawableCompat.create(resources, R.drawable.ic_close, theme))
-        toast(getString(R.string.subscribed))
     }
 
     private fun unsubscribed() {
         fab.setImageDrawable(VectorDrawableCompat.create(resources, R.drawable.ic_check, theme))
-        toast(getString(R.string.unsubscribed))
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -4,4 +4,6 @@ interface MainController {
 
     fun clickSubscribe()
 
+    fun longClickSubscribe()
+
 }
