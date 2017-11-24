@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">AMU OSS</string>
     <string name="action_settings">Settings</string>
+    <string name="subscribe">Subscribe</string>
+    <string name="unsubscribe">Unsubscribe</string>
+    <string name="subscribed">Subscribed</string>
+    <string name="unsubscribed">Unsubscribed</string>
+    <string name="all_channel_name">All Notifications</string>
+    <string name="all_channel_description">All notifications from AMU OSS</string>
 </resources>

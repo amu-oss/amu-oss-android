@@ -45,26 +45,23 @@ class MainActivity : AppCompatActivity(), MainView, AnkoLogger {
 
     private fun subscribed() {
         fab.setImageDrawable(VectorDrawableCompat.create(resources, R.drawable.ic_close, theme))
-        subscribeStatus.text = "Unsubscribe"
-        toast("Subscribed")
+        subscribeStatus.text = getString(R.string.unsubscribe)
+        toast(getString(R.string.subscribed))
     }
 
     private fun unsubscribed() {
         fab.setImageDrawable(VectorDrawableCompat.create(resources, R.drawable.ic_check, theme))
-        subscribeStatus.text = "Subscribe"
-        toast("Unsubscribed")
+        subscribeStatus.text = getString(R.string.subscribe)
+        toast(getString(R.string.unsubscribed))
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Disabled menu for Future
+        // TODO: Disabled menu for Future
         // menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
