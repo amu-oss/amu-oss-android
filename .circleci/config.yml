@@ -18,6 +18,9 @@ jobs:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
+          name: Copy Google Services JSON
+          command: echo $GOOGLE_SERVICE_JSON > app/google-services.json
+      - run:
           name: Run Tests
           command: ./gradlew lint test
       - store_artifacts:
