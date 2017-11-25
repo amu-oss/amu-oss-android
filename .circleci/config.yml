@@ -28,7 +28,7 @@ jobs:
           command: ./gradlew lint test
       - run:
           name: Decrypting Signing Key
-          command: openssl aes-256-cbc -d -in app/sign.enc -out app/sign.jks -k $ENCRYPTION_KEY
+          command: openssl aes-256-cbc -d -in app/sign.enc -out app/sign.jks -k $ENCRYPTION_KEY -md md5
       - run:
           name: Building Release App
           command: ./gradlew assembleRelease
