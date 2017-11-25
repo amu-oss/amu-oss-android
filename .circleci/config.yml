@@ -21,11 +21,11 @@ jobs:
           name: Copy Google Services JSON
           command: echo $GOOGLE_SERVICE_JSON > app/google-services.json
       - run:
+          name: Switch timezone to Kolkata
+          command: sudo cp /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
+      - run:
           name: Run Tests
           command: ./gradlew lint test
-      - run:
-          name: Copy Keystore Properties
-          command: echo $KEYSTORE_PROPERTIES > keystore.properties
       - run:
           name: Building Release App
           command: ./gradlew assembleRelease
