@@ -8,7 +8,11 @@ import io.amu.oss.utils.DateUtils
 @BindingAdapter("date")
 fun setDate(textView: TextView, isoDateString: String?) {
     if (isoDateString != null) {
-        textView.text = DateUtils.toFormattedString(isoDateString)
+        try {
+             textView.text = DateUtils.toFormattedString(isoDateString)
+        } catch (exception: Exception) {
+            textView.text = isoDateString
+        }
         textView.visibility = View.VISIBLE
     } else {
         textView.visibility = View.GONE
