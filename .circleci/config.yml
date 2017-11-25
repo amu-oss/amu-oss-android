@@ -23,8 +23,17 @@ jobs:
       - run:
           name: Run Tests
           command: ./gradlew lint test
+      - run:
+          name: Copy Keystore Properties
+          command: echo $KEYSTORE_PROPERTIES > keystore.properties
+      - run:
+          name: Building Release App
+          command: ./gradlew assembleRelease
       - store_artifacts:
           path: app/build/reports
           destination: reports
+      - store_artifacts:
+          path: app/build/outputs/apk
+          destination: apks
       - store_test_results:
           path: app/build/test-results
